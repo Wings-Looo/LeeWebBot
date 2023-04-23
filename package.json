@@ -1,7 +1,7 @@
 {
-  "name": "tampermonkey-starter",
+  "name": "gov-assistant",
   "version": "1.0.0",
-  "description": "tampermonkey 脚本初始化脚手架",
+  "description": "湖北光伏备案助手",
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --mode development",
@@ -31,5 +31,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
