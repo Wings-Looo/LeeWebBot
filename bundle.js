@@ -1,17 +1,12 @@
 // ==UserScript==
-// @name         tampermonkey-starter
-// @namespace    https://github.com/maqi1520/tampermonkey-starter
-// @version      0.2.7
-// @description  tampermonkey 脚本初始化脚手架
-// @supportURL   https://github.com/maqi1520/tampermonkey-starter/issues
-// @homepage     https://github.com/maqi1520/tampermonkey-starter
-// @author       maqibin
-// @match        https://www.baidu.com/
-// @icon         https://www.baidu.com/favicon.ico
-// @require      https://unpkg.com/react@18.2.0/umd/react.production.min.js
-// @require      https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js
+// @name         Gov Assistant
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  湖北光伏项目备案小助手
+// @author       Wings
+// @match        http://zwfw.hubei.gov.cn/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
-// @license      MIT
 // ==/UserScript==
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
@@ -541,9 +536,118 @@ var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_n
 var client = __webpack_require__(745);
 ;// CONCATENATED MODULE: ./src/App.tsx
 
+var mappings = [];
+function mapping(check, action) {
+    if (check()) {
+        action();
+    }
+}
+function createMappings() {
+    var home = createHomMapping();
+    var tszq = createTSZQMapping();
+    mappings.push(home);
+    mappings.push(tszq);
+}
+function createHomMapping() {
+    return mapping(function () {
+        return document.URL == "http://zwfw.hubei.gov.cn/";
+    }, function () {
+        //  <a href="/webview/tszq/tszq.html" target="_blank" bfdi="335">查看更多</a>
+        var element = document.querySelector("a[href=\'/webview/tszq/tszq.html\']");
+        console.log("currentElement : " + element);
+        if (element) {
+            element.click();
+        }
+    });
+}
+function createTSZQMapping() {
+    return mapping(function () {
+        return document.URL.includes("webview/tszq/tszq.html");
+    }, function () {
+        // <a href="javascript:void(0)" onclick="gowl('/webview/tzgc/index.html',false)" bfdi="261"><p bfdi="262"><span bfdi="263">投资/工程建设项目审批</span><img src="/images/newIndex/index_tszq/shangxin_new.png" alt="" bfdi="264"></p><p bfdi="265">“投资项目联审平台（联审）”和“工程项目审批改革平台（工改）”</p><p style="display:none;" bfdi="266"><img src="/images/newIndex/index_tszq/xh_new.png" alt="" bfdi="267"><span bfdi="268">127项服务</span></p><p bfdi="269"><button bfdi="270">去看看</button><img style="width:20px;height:10px" src="/images/newIndex/index_tszq/qkk_new.png" alt="" bfdi="271"></p><img class="pic-bg" src="/images/newIndex/index_tszq/gcjs_new.png" alt="" bfdi="272"></a>
+        // "http://zwfw.hubei.gov.cn/webview/tszq/tszq.html"
+        var element = document.querySelector("a[onclick=\"gowl('/webview/tzgc/index.html',false)\"]");
+        console.log("currentElement : " + element);
+        if (element) {
+            element.click();
+        }
+    });
+}
+function doInjectCallbacks() {
+    console.log("url : " + window.URL);
+    window.addEventListener('load', function () {
+        var url = document.URL;
+        console.log("currenturl : " + url);
+        if (url == "http://zwfw.hubei.gov.cn/") {
+            //  <a href="/webview/tszq/tszq.html" target="_blank" bfdi="335">查看更多</a>
+            var element = document.querySelector("a[href=\'/webview/tszq/tszq.html\']");
+            console.log("currentElement : " + element);
+            if (element) {
+                element.click();
+            }
+        }
+        else if (url.includes("webview/tszq/tszq.html")) {
+            // <a href="javascript:void(0)" onclick="gowl('/webview/tzgc/index.html',false)" bfdi="261"><p bfdi="262"><span bfdi="263">投资/工程建设项目审批</span><img src="/images/newIndex/index_tszq/shangxin_new.png" alt="" bfdi="264"></p><p bfdi="265">“投资项目联审平台（联审）”和“工程项目审批改革平台（工改）”</p><p style="display:none;" bfdi="266"><img src="/images/newIndex/index_tszq/xh_new.png" alt="" bfdi="267"><span bfdi="268">127项服务</span></p><p bfdi="269"><button bfdi="270">去看看</button><img style="width:20px;height:10px" src="/images/newIndex/index_tszq/qkk_new.png" alt="" bfdi="271"></p><img class="pic-bg" src="/images/newIndex/index_tszq/gcjs_new.png" alt="" bfdi="272"></a>
+            // "http://zwfw.hubei.gov.cn/webview/tszq/tszq.html"
+            var element = this.document.querySelector("a[onclick=\"gowl('/webview/tzgc/index.html',false)\"]");
+            console.log("currentElement : " + element);
+            if (element) {
+                element.click();
+            }
+        }
+        else if (url.includes("/webview/tzgc/index.html")) {
+            // "http://zwfw.hubei.gov.cn/webview/tzgc/index.html"
+            // <a class="lspt_wyb" onclick="checkLoginTo('/webview/tzxm/tzxm.html')" bfdi="114">我要办</a>
+            var element = this.document.querySelector("a[onclick=\"checkLoginTo('/webview/tzxm/tzxm.html')\"]");
+            console.log("currentElement : " + element);
+            if (element) {
+                element.click();
+            }
+        }
+        // else if (url.includes("app/hb/hb_aiapp/declareNewProject")) {
+        //   // "http://zwfw.hubei.gov.cn/web/jiekou/open_platform_forms/056/079/zwwService-eef08ffc260badcedd0911e96e2d41ef/24/dist/index.html#/app/hb/hb_aiapp/declareNewProject"
+        // }
+        else if (url.includes("app/hb/hb_aiapp/declare")) {
+            // "http://zwfw.hubei.gov.cn/web/jiekou/open_platform_forms/056/079/zwwService-eef08ffc260badcedd0911e96e2d41ef/24/dist/index.html#/app/hb/hb_aiapp/declare"
+            // <span class="declare-wrapper-menus-item-btns-text">申报新项目</span>
+            document.querySelectorAll(".declare-wrapper-menus-item-btns-text").forEach(function (element) {
+                var content = element.innerHTML;
+                console.log("content : " + content);
+                if (content == "申报新项目") {
+                    console.log("currentElement : " + element);
+                    element.click();
+                }
+            });
+            var targetNode = document.getElementById('bf_body');
+            var success = true;
+            ;
+            var mouseEvt_1 = new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+            });
+            var observe = new MutationObserver(function (mutations, observe) {
+                var element = document.querySelector(".ivu-cascader-rel");
+                console.log("currentElement : " + element);
+                // <div class=""><input type="hidden"> <div class="dsh-control-define"><span class="dsh-control-define-nodata">请选择所属行政区划</span></div></div>
+                if (element) {
+                    console.log("dispatchEvent : " + element);
+                    success = true;
+                    element.dispatchEvent(mouseEvt_1);
+                }
+            });
+            observe.observe(targetNode, { attributes: true, childList: true, subtree: true });
+        }
+    });
+}
+function injectCallbacks() {
+    doInjectCallbacks();
+    createMappings;
+    // mappings.
+}
 function App() {
     return (external_react_default().createElement("div", null,
-        external_react_default().createElement("button", { className: "fixed-button", onClick: function () { return alert("123"); } }, "\u6302\u4EF6")));
+        external_react_default().createElement("button", { className: "fixed-button", onClick: function () { return alert("123"); } }, "\u5C0F\u7EC4\u4EF6")));
 }
 
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
@@ -597,20 +701,16 @@ var update = injectStylesIntoStyleTag_default()(styles/* default */.Z, options);
 
 ;// CONCATENATED MODULE: ./src/index.tsx
 // ==UserScript==
-// @name         tampermonkey-starter
-// @namespace    https://github.com/maqi1520/tampermonkey-starter
-// @version      0.2.7
-// @description  tampermonkey 脚本初始化脚手架
-// @supportURL   https://github.com/maqi1520/tampermonkey-starter/issues
-// @homepage     https://github.com/maqi1520/tampermonkey-starter
-// @author       maqibin
-// @match        https://www.baidu.com/
-// @icon         https://www.baidu.com/favicon.ico
-// @require      https://unpkg.com/react@18.2.0/umd/react.production.min.js
-// @require      https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js
+// @name         Gov Assistant
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  湖北光伏项目备案小助手
+// @author       Wings
+// @match        http://zwfw.hubei.gov.cn/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
-// @license      MIT
 // ==/UserScript==
+
 
 
 
@@ -619,6 +719,10 @@ var rootElement = document.createElement("div");
 document.body.appendChild(rootElement);
 var root = (0,client/* createRoot */.s)(rootElement);
 root.render(external_react_default().createElement(App, null));
+function run() {
+    injectCallbacks();
+}
+run();
 
 })();
 
