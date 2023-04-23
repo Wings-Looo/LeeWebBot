@@ -545,8 +545,10 @@ function mapping(check, action) {
 function createMappings() {
     var home = createHomMapping();
     var tszq = createTSZQMapping();
+    var tzgc = createTZGCMapping();
     mappings.push(home);
     mappings.push(tszq);
+    mappings.push(tzgc);
 }
 function createHomMapping() {
     return mapping(function () {
@@ -557,7 +559,9 @@ function createHomMapping() {
         console.log("currentElement : " + element);
         if (element) {
             element.click();
+            return true;
         }
+        return false;
     });
 }
 function createTSZQMapping() {
@@ -570,84 +574,77 @@ function createTSZQMapping() {
         console.log("currentElement : " + element);
         if (element) {
             element.click();
+            return true;
         }
+        return false;
+    });
+}
+function createTZGCMapping() {
+    return mapping(function () {
+        return document.URL.includes("/webview/tzgc/index.html");
+    }, function () {
+        // "http://zwfw.hubei.gov.cn/webview/tzgc/index.html"
+        // <a class="lspt_wyb" onclick="checkLoginTo('/webview/tzxm/tzxm.html')" bfdi="114">我要办</a>
+        var element = document.querySelector("a[onclick=\"checkLoginTo('/webview/tzxm/tzxm.html')\"]");
+        console.log("currentElement : " + element);
+        if (element) {
+            element.click();
+            return true;
+        }
+        return false;
+    });
+}
+function createDeclareMapping() {
+    return mapping(function () {
+        return document.URL.includes("app/hb/hb_aiapp/declare");
+    }, function () {
+        // "http://zwfw.hubei.gov.cn/web/jiekou/open_platform_forms/056/079/zwwService-eef08ffc260badcedd0911e96e2d41ef/24/dist/index.html#/app/hb/hb_aiapp/declare"
+        document.querySelectorAll(".declare-wrapper-menus-item-btns-text").forEach(function (element) {
+            // <span class="declare-wrapper-menus-item-btns-text">申报新项目</span>
+            var content = element.innerHTML;
+            console.log("content : " + content);
+            if (content == "申报新项目") {
+                console.log("currentElement : " + element);
+                element.click();
+            }
+        });
+        var targetNode = document.getElementById('bf_body');
+        var success = true;
+        ;
+        var mouseEvt = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+        });
+        var observe = new MutationObserver(function (mutations, observe) {
+            var element = document.querySelector(".ivu-cascader-rel");
+            console.log("currentElement : " + element);
+            // <div class=""><input type="hidden"> <div class="dsh-control-define"><span class="dsh-control-define-nodata">请选择所属行政区划</span></div></div>
+            if (element) {
+                console.log("dispatchEvent : " + element);
+                success = true;
+                element.dispatchEvent(mouseEvt);
+            }
+        });
+        observe.observe(targetNode, { attributes: true, childList: true, subtree: true });
+        return false;
     });
 }
 function doInjectCallbacks() {
     console.log("url : " + window.URL);
     window.addEventListener('load', function () {
-        var url = document.URL;
-        console.log("currenturl : " + url);
-        if (url == "http://zwfw.hubei.gov.cn/") {
-            //  <a href="/webview/tszq/tszq.html" target="_blank" bfdi="335">查看更多</a>
-            var element = document.querySelector("a[href=\'/webview/tszq/tszq.html\']");
-            console.log("currentElement : " + element);
-            if (element) {
-                element.click();
-            }
-        }
-        else if (url.includes("webview/tszq/tszq.html")) {
-            // <a href="javascript:void(0)" onclick="gowl('/webview/tzgc/index.html',false)" bfdi="261"><p bfdi="262"><span bfdi="263">投资/工程建设项目审批</span><img src="/images/newIndex/index_tszq/shangxin_new.png" alt="" bfdi="264"></p><p bfdi="265">“投资项目联审平台（联审）”和“工程项目审批改革平台（工改）”</p><p style="display:none;" bfdi="266"><img src="/images/newIndex/index_tszq/xh_new.png" alt="" bfdi="267"><span bfdi="268">127项服务</span></p><p bfdi="269"><button bfdi="270">去看看</button><img style="width:20px;height:10px" src="/images/newIndex/index_tszq/qkk_new.png" alt="" bfdi="271"></p><img class="pic-bg" src="/images/newIndex/index_tszq/gcjs_new.png" alt="" bfdi="272"></a>
-            // "http://zwfw.hubei.gov.cn/webview/tszq/tszq.html"
-            var element = this.document.querySelector("a[onclick=\"gowl('/webview/tzgc/index.html',false)\"]");
-            console.log("currentElement : " + element);
-            if (element) {
-                element.click();
-            }
-        }
-        else if (url.includes("/webview/tzgc/index.html")) {
-            // "http://zwfw.hubei.gov.cn/webview/tzgc/index.html"
-            // <a class="lspt_wyb" onclick="checkLoginTo('/webview/tzxm/tzxm.html')" bfdi="114">我要办</a>
-            var element = this.document.querySelector("a[onclick=\"checkLoginTo('/webview/tzxm/tzxm.html')\"]");
-            console.log("currentElement : " + element);
-            if (element) {
-                element.click();
-            }
-        }
-        // else if (url.includes("app/hb/hb_aiapp/declareNewProject")) {
-        //   // "http://zwfw.hubei.gov.cn/web/jiekou/open_platform_forms/056/079/zwwService-eef08ffc260badcedd0911e96e2d41ef/24/dist/index.html#/app/hb/hb_aiapp/declareNewProject"
-        // }
-        else if (url.includes("app/hb/hb_aiapp/declare")) {
-            // "http://zwfw.hubei.gov.cn/web/jiekou/open_platform_forms/056/079/zwwService-eef08ffc260badcedd0911e96e2d41ef/24/dist/index.html#/app/hb/hb_aiapp/declare"
-            // <span class="declare-wrapper-menus-item-btns-text">申报新项目</span>
-            document.querySelectorAll(".declare-wrapper-menus-item-btns-text").forEach(function (element) {
-                var content = element.innerHTML;
-                console.log("content : " + content);
-                if (content == "申报新项目") {
-                    console.log("currentElement : " + element);
-                    element.click();
-                }
-            });
-            var targetNode = document.getElementById('bf_body');
-            var success = true;
-            ;
-            var mouseEvt_1 = new MouseEvent('click', {
-                bubbles: true,
-                cancelable: true,
-                view: window,
-            });
-            var observe = new MutationObserver(function (mutations, observe) {
-                var element = document.querySelector(".ivu-cascader-rel");
-                console.log("currentElement : " + element);
-                // <div class=""><input type="hidden"> <div class="dsh-control-define"><span class="dsh-control-define-nodata">请选择所属行政区划</span></div></div>
-                if (element) {
-                    console.log("dispatchEvent : " + element);
-                    success = true;
-                    element.dispatchEvent(mouseEvt_1);
-                }
-            });
-            observe.observe(targetNode, { attributes: true, childList: true, subtree: true });
-        }
+        mappings.every(function (mapping) {
+            return mapping();
+        });
     });
 }
 function injectCallbacks() {
-    doInjectCallbacks();
     createMappings;
-    // mappings.
+    doInjectCallbacks();
 }
 function App() {
     return (external_react_default().createElement("div", null,
-        external_react_default().createElement("button", { className: "fixed-button", onClick: function () { return alert("123"); } }, "\u5C0F\u7EC4\u4EF6")));
+        external_react_default().createElement("button", { className: "fixed-button", onClick: function () { return alert("123"); } }, "\u6E56\u5317\u5149\u4F0F\u5907\u4EFD\u8F85\u52A9")));
 }
 
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
