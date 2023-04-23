@@ -34,15 +34,7 @@ class BannerPlugin {
 }
 
 const config = {
-
-  entry: {
-    app: './src/index.tsx',
-    vendor: [
-      // 将react和react-dom这些单独打包出来，减小打包文件体积
-      'react',
-      'react-dom',
-    ],
-  },
+  entry :'./src/index.tsx',
 
   output: {
     clean: true,
