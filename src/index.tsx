@@ -6,6 +6,8 @@
 // @author       Wings
 // @match        http://zwfw.hubei.gov.cn/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @require      https://unpkg.com/react@18.2.0/umd/react.production.min.js
+// @require      https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js
 // @grant        none
 // ==/UserScript==
 
